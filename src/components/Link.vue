@@ -16,8 +16,8 @@ import Card from './Link/Card.vue'
         url="test"
         url-name="test"
         :style="{
-          top: `Calc(${Math.random() * 80}% + 24px)`,
-          left: `Calc(${Math.random() * 80}% + 24px)`,
+          top: `Calc(${Math.random() * 80}% - 12px)`,
+          left: `Calc(${Math.random() * 80}% - 12px)`,
         }"
       />
     </div>
