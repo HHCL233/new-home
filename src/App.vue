@@ -1,15 +1,21 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import Welcome from './components/Welcome.vue'
 import Link from './components/Link.vue'
 import Sh from './components/Sh.vue'
+import Loading from './components/Loading.vue'
 
-const pages = ref(0)
+const pages = ref(-1)
+
+onMounted(() => {
+  pages.value = 0
+})
 </script>
 
 <template>
   <Transition mode="out-in">
-    <Welcome v-if="pages == 0" @go="pages = 1" />
+    <Loading v-if="pages == -1" />
+    <Welcome v-else-if="pages == 0" @go="pages = 1" />
     <Link v-else-if="pages == 1" @go="pages = 2" />
     <Sh v-else-if="pages == 2" @go="pages = 0" />
   </Transition>
