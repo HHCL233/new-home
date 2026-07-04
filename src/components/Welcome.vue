@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { openNewPage } from '@/utils/open'
 import { ref, type CSSProperties } from 'vue'
 
 const textCSS = ref<CSSProperties>({})
@@ -35,7 +36,7 @@ const onTextMouseenter = (e: MouseEvent) => {
   welcomeButtonShow.value = true
 }
 
-const emit = defineEmits(['go', 'github'])
+const emit = defineEmits(['go'])
 </script>
 
 <template>
@@ -52,7 +53,7 @@ const emit = defineEmits(['go', 'github'])
         text-anchor="middle"
         dominant-baseline="middle"
       >
-        Welcome
+        HHCL233
       </text>
     </svg>
     <button ref="welcomeButtonRef" class="welcome-button" @click="emit('go')" :style="welcomeCSS">
@@ -61,7 +62,7 @@ const emit = defineEmits(['go', 'github'])
     <button
       ref="welcomeButtonRef"
       class="welcome-button"
-      @click="emit('github')"
+      @click="openNewPage('https://github.com/HHCL233')"
       :style="welcomeCSS"
     >
       Github!

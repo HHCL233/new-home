@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { openNewPage } from '@/utils/open'
 import { computed } from 'vue'
 
 const props = defineProps({
@@ -35,18 +36,17 @@ const avatarUrl = computed(() => `url(${props.avatar})`)
     <div class="link-user-img"></div>
     <span class="link-user-name">{{ props.name }}</span>
     <span class="link-user-content">{{ props.content ?? '' }}</span>
-    <button class="link-user-go" v-if="props.url">前往 {{ props.urlName ?? props.url }}</button>
+    <button class="link-user-go" v-if="props.url" @click="openNewPage(props.url)">
+      前往 {{ props.urlName ?? props.url }}
+    </button>
   </div>
 </template>
 <style scoped>
 .link-card {
   height: 240px;
   position: relative;
+  background-color: rgb(125, 125, 125);
   width: 360px;
-  background-image: v-bind('bgUrl');
-  background-position: center center;
-  background-size: cover;
-  background-repeat: no-repeat;
   border-radius: 12px;
   box-shadow: 0px 0px 24px #272727;
   display: flex;
@@ -55,9 +55,28 @@ const avatarUrl = computed(() => `url(${props.avatar})`)
   box-sizing: border-box;
   flex-direction: column;
   gap: 8px;
+  overflow: hidden;
+}
+
+.link-card::before {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  content: '';
+  background-image: v-bind('bgUrl');
+  background-color: rgb(125, 125, 125);
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 420px;
+  height: 360px;
+  border-radius: 12px;
+  filter: blur(24px);
 }
 
 .link-user-img {
+  position: relative;
   border-radius: 50%;
   height: 42px;
   width: 42px;
@@ -68,10 +87,12 @@ const avatarUrl = computed(() => `url(${props.avatar})`)
 }
 
 .link-user-name {
+  position: relative;
   font-size: 32px;
 }
 
 .link-user-content {
+  position: relative;
   font-size: 18px;
 }
 
