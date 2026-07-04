@@ -7,7 +7,7 @@ import Loading from './components/Loading.vue'
 
 const pages = ref(-1)
 
-onMounted(() => {
+window.addEventListener('load', () => {
   pages.value = 0
 })
 </script>
