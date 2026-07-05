@@ -38,7 +38,6 @@ const emit = defineEmits(['go'])
 </script>
 <template>
   <div id="link" ref="linkRef" @mousemove="onMousemove">
-    <p class="link-title" :style="contentCSS">MyFriends</p>
     <Card
       class="link-card"
       v-for="(link, index) in linkConfig"
@@ -54,6 +53,7 @@ const emit = defineEmits(['go'])
         ...cardCSS,
       }"
     />
+    <p class="link-title" :style="contentCSS">MyFriends</p>
     <button ref="linkButtonRef" class="link-button" :style="buttonCSS" @click="emit('go')">
       Next!
     </button>
@@ -81,6 +81,7 @@ const emit = defineEmits(['go'])
   animation: goShow ease-out 250ms;
   will-change: transform;
   transition: all 350ms ease-out;
+  filter: blur(0px);
 }
 
 .link-card {
@@ -98,6 +99,11 @@ const emit = defineEmits(['go'])
   z-index: 2;
 }
 
+#link:has(.link-card:hover) .link-title,
+#link:has(.link-card:hover) .link-button {
+  filter: blur(8px);
+}
+
 .link-button {
   height: 64px;
   width: 256px;
@@ -113,6 +119,7 @@ const emit = defineEmits(['go'])
   animation: goShow ease-in-out 250ms;
   will-change: transform;
   z-index: 1;
+  filter: blur(0px);
 }
 
 .link-button:hover {
