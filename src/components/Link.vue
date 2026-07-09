@@ -99,11 +99,6 @@ const emit = defineEmits(['go'])
   z-index: 2;
 }
 
-#link:has(.link-card:hover) .link-title,
-#link:has(.link-card:hover) .link-button {
-  filter: blur(8px);
-}
-
 .link-button {
   height: 64px;
   width: 256px;
