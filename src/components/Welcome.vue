@@ -1,13 +1,16 @@
 <script setup lang="ts">
+import { useElementStore } from '@/stores/element'
 import { openNewPage } from '@/utils/open'
-import { ref, type CSSProperties } from 'vue'
+import { onMounted, ref, type CSSProperties } from 'vue'
 
 const textCSS = ref<CSSProperties>({})
 const welcomeCSS = ref<CSSProperties>({})
 const welcomeRef = ref<HTMLDivElement | null>(null)
 const welcomeButtonRef = ref<HTMLButtonElement | null>(null)
+const welcomeButtonRef1 = ref<HTMLButtonElement | null>(null)
 const welcomeButtonShow = ref(false)
 const isTicking = ref(false)
+const elementStore = useElementStore()
 
 const onMousemove = (e: MouseEvent) => {
   if (isTicking.value) return
@@ -37,6 +40,11 @@ const onTextMouseenter = (e: MouseEvent) => {
 }
 
 const emit = defineEmits(['go'])
+
+onMounted(() => {
+  if (!welcomeButtonRef.value || !welcomeButtonRef1.value) return
+  elementStore.addElement([welcomeButtonRef.value, welcomeButtonRef1.value])
+})
 </script>
 
 <template>
@@ -56,12 +64,12 @@ const emit = defineEmits(['go'])
         HHCL233
       </text>
     </svg>
-    <button ref="welcomeButtonRef" class="welcome-button" @click="emit('go')" :style="welcomeCSS">
+    <button ref="welcomeButtonRef1" class="welcome-button" @click="emit('go')" :style="welcomeCSS">
       Go!
     </button>
     <button
       ref="welcomeButtonRef"
-      class="welcome-button"
+      :class="['welcome-button']"
       @click="openNewPage('https://github.com/HHCL233')"
       :style="welcomeCSS"
     >

@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { openNewPage } from '@/utils/open'
-import { computed } from 'vue'
+import { computed, ref, onMounted } from 'vue'
+import { useElementStore } from '@/stores/element'
 
+const domArray = ref<Array<HTMLElement>>([])
+const elementStore = useElementStore()
 const props = defineProps({
   name: {
     type: String,
@@ -30,13 +33,26 @@ const props = defineProps({
 })
 const bgUrl = computed(() => `url(${props.background})`)
 const avatarUrl = computed(() => `url(${props.avatar})`)
+
+onMounted(() => {
+  elementStore.addElement(domArray.value)
+})
 </script>
 <template>
   <div class="link-card">
     <div class="link-user-img"></div>
     <span class="link-user-name">{{ props.name }}</span>
     <span class="link-user-content">{{ props.content ?? '' }}</span>
-    <button class="link-user-go" v-if="props.url" @click="openNewPage(props.url)">
+    <button
+      class="link-user-go"
+      v-if="props.url"
+      @click="openNewPage(props.url)"
+      :ref="
+        (el) => {
+          if (el && !domArray.includes(el as HTMLElement)) domArray.push(el as HTMLElement)
+        }
+      "
+    >
       前往 {{ props.urlName ?? props.url }}
     </button>
   </div>

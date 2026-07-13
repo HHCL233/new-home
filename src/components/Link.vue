@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { ref, type CSSProperties } from 'vue'
+import { onMounted, ref, type CSSProperties } from 'vue'
 import Card from './Link/Card.vue'
 import linkConfig from '../assets/link/config.json'
+import { useElementStore } from '@/stores/element'
 
 const isTicking = ref(false)
 const linkRef = ref<HTMLDivElement | null>(null)
@@ -12,6 +13,8 @@ const cardLength = ref(linkConfig.length)
 const cardRandomCSS = ref(
   Array.from({ length: cardLength.value }, (_, i) => [Math.random() * 80, Math.random() * 80]),
 )
+const domArray = ref<Array<HTMLElement>>([])
+const elementStore = useElementStore()
 
 const onMousemove = (e: MouseEvent) => {
   if (isTicking.value) return
@@ -35,6 +38,10 @@ const onMousemove = (e: MouseEvent) => {
 }
 
 const emit = defineEmits(['go'])
+
+onMounted(() => {
+  elementStore.addElement(domArray.value)
+})
 </script>
 <template>
   <div id="link" ref="linkRef" @mousemove="onMousemove">
@@ -54,7 +61,16 @@ const emit = defineEmits(['go'])
       }"
     />
     <p class="link-title" :style="contentCSS">MyFriends</p>
-    <button ref="linkButtonRef" class="link-button" :style="buttonCSS" @click="emit('go')">
+    <button
+      class="link-button"
+      :style="buttonCSS"
+      @click="emit('go')"
+      :ref="
+        (el) => {
+          if (el && !domArray.includes(el as HTMLElement)) domArray.push(el as HTMLElement)
+        }
+      "
+    >
       Next!
     </button>
   </div>
