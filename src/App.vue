@@ -50,12 +50,6 @@ watch(
           mouseTipCss.value['--height'] = '36px'
           mouseenterElement.value = null
         })
-        value.addEventListener('mousedown', (e: MouseEvent) => {
-          const rect = value.getBoundingClientRect()
-          mouseTipCss.value['--width'] = `${rect.width + 36}px`
-          mouseTipCss.value['--height'] = `${rect.height + 36}px`
-          mouseenterElement.value = null
-        })
         boundElements.add(value)
       }
     })
